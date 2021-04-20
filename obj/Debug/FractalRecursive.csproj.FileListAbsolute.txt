@@ -1,0 +1,7 @@
+C:\Users\gonza\Documents\NetFramework Projects\FractalRecursive\bin\Debug\FractalRecursive.exe.config
+C:\Users\gonza\Documents\NetFramework Projects\FractalRecursive\bin\Debug\FractalRecursive.exe
+C:\Users\gonza\Documents\NetFramework Projects\FractalRecursive\bin\Debug\FractalRecursive.pdb
+C:\Users\gonza\Documents\NetFramework Projects\FractalRecursive\obj\Debug\FractalRecursive.csprojAssemblyReference.cache
+C:\Users\gonza\Documents\NetFramework Projects\FractalRecursive\obj\Debug\FractalRecursive.csproj.CoreCompileInputs.cache
+C:\Users\gonza\Documents\NetFramework Projects\FractalRecursive\obj\Debug\FractalRecursive.exe
+C:\Users\gonza\Documents\NetFramework Projects\FractalRecursive\obj\Debug\FractalRecursive.pdb
