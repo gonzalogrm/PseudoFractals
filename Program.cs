@@ -90,7 +90,7 @@ namespace FractalRecursive
         //Propiedades
         public int num { get; set; }
 
-        //El objecto incluye una instancia de su misma clase
+        //El objecto incluye una referencia a una instancia de su misma clase
         public PseudoFractal inner { get; set; }
 
         //Constructor
@@ -144,7 +144,8 @@ namespace FractalRecursive
 
                 //Llamada recursiva.
                 //Asociamos recursivamente cada objeto al de la iteración anterior
-                //El resultado es un conjunto de objetos anidados uno dentro del otro.
+                //El resultado es un conjunto de objetos con referencias al siguiente
+                //Se puede imaginar como anidados uno dentro del otro.
                 instance.inner = RecursiveBuild(n - 1, iteration);
             }
 
