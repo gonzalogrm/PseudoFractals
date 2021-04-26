@@ -2,3 +2,4 @@ Proyecto de ejemplo para ilustrar casos de uso de programación recursiva. Inclu
 - Métodos recursivos para calcular el factorial de un número natural
 - Métodos recursivos para calcular el término n-ésimo de la sucesión de Fibonacci
 - Clase para emular una estructura pseudo-fractal y Factory correspondiente para implementación.
+- Incluye clase experimental FractalDictionary, no implementada por completo.
