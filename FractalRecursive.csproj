@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FractalClasses\FractalDictionary.cs" />
+    <Compile Include="FractalClasses\FractalFactory.cs" />
+    <Compile Include="FractalClasses\PseudoFractal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,10 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+using FractalRecursive.FractalClasses;
 
 namespace FractalRecursive
 {
     class Program
     {
         static void Main(string[] args)
+        {
+            FractalBasicTest();
+            //TupleDictionaryTest_1();
+            Console.ReadLine();
+        }
+
+        public static void FractalBasicTest()
         {
             //Factorial de 3:
             Console.WriteLine($"Factorial de 3: {FactorialOneLine(3)}");
@@ -21,12 +32,124 @@ namespace FractalRecursive
 
             //Objectos recursivamente compuestos
             FractalFactory factory = new FractalFactory();
-            PseudoFractal composite = 
+            PseudoFractal composite =
                 factory.BuildToOrder(3);
-            
+
             Console.WriteLine($"Total Sum: {composite.TotalSum(0, composite)}");
-            Console.ReadLine();
         }
+
+        public static void FractalDictionaryTest_0()
+        {
+            FractalDictionary fd = new FractalDictionary();
+
+            List<object> coordinates = new List<object>();
+            coordinates = new List<object> { 1, 2, 3 };
+            fd.Add(coordinates, "Value_123");
+            coordinates = new List<object> { 1, 2, 4 };
+            fd.Add(coordinates, "Value_124");
+
+            Console.WriteLine("TryGet: " + fd.TryGet(new List<object> { 1, 2, 4 }));
+            Console.WriteLine("TryGet: " + fd.TryGet(new List<object> { 2, 2, 4 }));
+            Console.WriteLine("TryGet: " + fd.TryGet(new List<object> { 1, 2, 6 }));
+
+            Console.WriteLine($"Total Dict: {FractalDictionary.totalInnerDictionaries}");
+        }
+
+        public static void FractalDictionaryTest_1()
+        {
+            FractalDictionary fd = new FractalDictionary();
+            Stopwatch sw = new Stopwatch();
+
+            List<object> coordinates;
+
+            sw.Start();
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    for (int k = 0; k < 10; k++)
+                    {
+                        for (int m = 0; m < 10; m++)
+                        {
+                            coordinates = new List<object> { i, j, k, m };
+                            fd.Add(coordinates, $"Value{i}{j}{k}{m}");
+                        }
+                    }
+                }
+            }
+            sw.Stop();
+            Console.WriteLine("Add ms: " + sw.ElapsedTicks);
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    for (int k = 0; k < 10; k++)
+                    {
+                        for (int m = 0; m < 10; m++)
+                        {
+                            coordinates = new List<object> { i, j, k, m };
+                            sw.Start();
+                            object o = fd.TryGet(new List<object> { i, j, k, m });
+                            sw.Stop();
+                            Console.WriteLine($"TryGet: {i}{j}{k}{m} | " + o);
+                            Console.WriteLine("ms: " + sw.ElapsedTicks);
+                            sw.Reset();
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine($"Total Dict: {FractalDictionary.totalInnerDictionaries}");
+        }
+
+        public static void TupleDictionaryTest_1()
+        {
+            // Declare
+            Stopwatch sw = new Stopwatch();
+            var test = new Dictionary<(object, object, object, object), object>();
+            List<object> coordinates;
+
+            sw.Start();
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    for (int k = 0; k < 10; k++)
+                    {
+                        for (int m = 0; m < 10; m++)
+                        {
+                            test.Add((i, j, k, m), $"Value{i}{j}{k}{m}");
+                        }
+                    }
+                }
+            }
+            sw.Stop();
+            Console.WriteLine("Add ms: " + sw.ElapsedTicks);
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    for (int k = 0; k < 10; k++)
+                    {
+                        for (int m = 0; m < 10; m++)
+                        {
+                            coordinates = new List<object> { i, j, k, m };
+                            sw.Start();
+                            object o = test[(i, j, k, m)];
+                            sw.Stop();
+                            Console.WriteLine($"TryGet: {i}{j}{k}{m} | " + o);
+                            Console.WriteLine("ms: " + sw.ElapsedTicks);
+                            sw.Reset();
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine($"Total Dict: {FractalDictionary.totalInnerDictionaries}");
+        }
+
 
         //Recursion
         /*
@@ -83,73 +206,7 @@ namespace FractalRecursive
             return (n == 1 || n == 0) ? n : (FibonacciOneLine(n - 1) + FibonacciOneLine(n - 2));
         }
     }
-
-    //PseudoFractal
-    public class PseudoFractal
-    {
-        //Propiedades
-        public int num { get; set; }
-
-        //El objecto incluye una referencia a una instancia de su misma clase
-        public PseudoFractal inner { get; set; }
-
-        //Constructor
-        public PseudoFractal()
-        {
-            num = 1;
-            //Por defecto, el objeto no contiene instancias internas.
-            inner = null;
-        }
-
-        //Método para calcular la suma de toda la estructura recursiva.
-        public int TotalSum(int res, PseudoFractal instance)
-        {
-            //Caso base
-            //Si es null, la instancia ya no contiene más instancias
-            if (instance.inner == null)
-            {
-                return res += instance.num;
-            }
-            else
-            {
-                //Sumamos el num de la instancia
-                res += instance.num;
-
-                //Pasamos la instancia interna a la próxima llamada recursiva
-                PseudoFractal iteration = instance.inner;
-                return TotalSum(res, iteration);
-            }
-        }
-    }
-
-    public class FractalFactory
-    {
-        //Función pública para recibir request
-        public PseudoFractal BuildToOrder(int order)
-        {
-            return RecursiveBuild(order, new PseudoFractal());
-        }
-
-        //Función recursiva para construir objetos pseudofractales a profundidad n. 
-        private PseudoFractal RecursiveBuild(int n, PseudoFractal instance)
-        {
-            if (n == 1)
-            {
-                return new PseudoFractal();
-            }
-            else
-            {
-                //Creamos un objeto en cada iteración
-                PseudoFractal iteration = new PseudoFractal();
-
-                //Llamada recursiva.
-                //Asociamos recursivamente cada objeto al de la iteración anterior
-                //El resultado es un conjunto de objetos con referencias al siguiente
-                //Se puede imaginar como anidados uno dentro del otro.
-                instance.inner = RecursiveBuild(n - 1, iteration);
-            }
-
-            return instance;
-        }
-    }
 }
+
+
+    
